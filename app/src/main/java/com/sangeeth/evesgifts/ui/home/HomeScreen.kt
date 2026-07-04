@@ -76,52 +76,6 @@ fun HomeScreen() {
                     unfocusedContainerColor = Color.Transparent
                 )
             )
-
-
-            Column(modifier = Modifier.padding(top = 20.dp)) {
-                ExposedDropdownMenuBox(
-                    expanded = isDropDownExpanded.value,
-                    onExpandedChange = { isDropDownExpanded.value = !isDropDownExpanded.value }
-                ) {
-
-                    OutlinedTextField(
-                        value = itemPosition.value,
-                        onValueChange = {},
-                        readOnly = true,
-                        trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = isDropDownExpanded.value)
-                        },
-                        colors = TextFieldDefaults.colors(
-                            focusedIndicatorColor = colorResource(R.color.primary_color),
-                            unfocusedIndicatorColor = colorResource(R.color.primary_color),
-                            cursorColor = colorResource(R.color.primary_color),
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
-                    )
-
-                    ExposedDropdownMenu(
-                        expanded = isDropDownExpanded.value,
-                        onDismissRequest = { isDropDownExpanded.value = false },
-                    ) {
-                        usernames.forEach { option ->
-                            DropdownMenuItem(
-                                text = {
-                                    Text(option, color = MaterialTheme.colorScheme.onSurface)
-                                },
-                                onClick = {
-                                    itemPosition.value = option
-                                    isDropDownExpanded.value = false
-                                },
-                                contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                            )
-                        }
-                    }
-                }
-            }
         }
     }
 }
