@@ -59,6 +59,19 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.navigation.compose)
 
+    //material icons
     implementation(libs.compose.material.icons)
+
+    //retrofit libs
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    //coroutines
+    implementation(libs.kotlinx.coroutines.andorid)
+
+    //lifecycle viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
 
 }

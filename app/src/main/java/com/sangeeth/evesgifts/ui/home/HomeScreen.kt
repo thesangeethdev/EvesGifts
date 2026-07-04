@@ -5,12 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.rememberTextFieldState
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuAnchorType
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -23,11 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.sangeeth.evesgifts.R
 
 
@@ -43,8 +35,10 @@ fun HomeScreen() {
     val usernames = listOf("Frames", "Cakes", "Gifts")
     Scaffold(
         floatingActionButton = { FloatingActionButton() }
-    ){
-        Column(modifier = Modifier.padding(20.dp).padding(it)) {
+    ) {
+        Column(modifier = Modifier
+            .padding(20.dp)
+            .padding(it)) {
             Text(
                 text = "Create Quotation",
                 modifier = Modifier.fillMaxWidth(),

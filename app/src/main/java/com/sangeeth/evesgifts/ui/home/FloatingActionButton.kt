@@ -98,15 +98,17 @@ fun FloatingActionButton() {
         }
     }
 
-    when(selectedItem) {
+    when (selectedItem) {
         "Frames" -> {
-            FramesScreen(onDismiss = {selectedItem=null})
+            FramesScreen(onDismiss = { selectedItem = null })
         }
+
         "Cakes" -> {
-            CakesScreen(onDismiss = {selectedItem=null})
+            CakesScreen(onDismiss = { selectedItem = null })
         }
+
         "Gifts" -> {
-            GiftsScreen(onDismiss = {selectedItem=null})
+            GiftsScreen(onDismiss = { selectedItem = null })
         }
     }
 }

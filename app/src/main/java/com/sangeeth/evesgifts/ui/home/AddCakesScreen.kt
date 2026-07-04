@@ -20,10 +20,16 @@ fun CakesScreen(onDismiss: () -> Unit) {
     var showDialog by remember { mutableStateOf(false) }
 
     AlertDialog(
-        onDismissRequest =  onDismiss,
-        title = { Text("Add Cakes", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center) },
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                "Add Cakes",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+        },
         confirmButton = {
-            TextButton(onClick = { /* TODO */}) {
+            TextButton(onClick = { /* TODO */ }) {
                 Text("Delete it".uppercase())
             }
         },

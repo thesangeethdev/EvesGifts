@@ -11,19 +11,19 @@ import com.sangeeth.evesgifts.ui.profile.ProfileScreen
 @Composable
 fun AppNavHost(
     navController: NavHostController
-){
+) {
 
     NavHost(
         navController = navController,
         startDestination = AppDestination.Home.route
-    ){
-        composable(AppDestination.Home.route){
+    ) {
+        composable(AppDestination.Home.route) {
             HomeScreen()
         }
-        composable(AppDestination.Orders.route){
+        composable(AppDestination.Orders.route) {
             OrdersScreen()
         }
-        composable(AppDestination.Profile.route){
+        composable(AppDestination.Profile.route) {
             ProfileScreen()
         }
     }
