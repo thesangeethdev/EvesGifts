@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -19,7 +20,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -58,6 +62,8 @@ fun FramesScreen(
                 textAlign = TextAlign.Center
             )
         },
+        titleContentColor = colorResource(R.color.primary_color),
+        iconContentColor = colorResource(R.color.primary_color),
         text = {
             Column {
 
@@ -67,7 +73,7 @@ fun FramesScreen(
                     expanded = expandedCategory,
                     onExpandedChange = {
                         expandedCategory = !expandedCategory
-                    }
+                    },
                 ) {
                     OutlinedTextField(
                         modifier = Modifier.menuAnchor(),
@@ -77,7 +83,13 @@ fun FramesScreen(
                         label = {Text("Category")},
                         trailingIcon = {
                             ExposedDropdownMenuDefaults.TrailingIcon(expandedCategory)
-                        }
+                        },
+                        colors = ExposedDropdownMenuDefaults.textFieldColors(
+                            focusedIndicatorColor = colorResource(R.color.primary_color),
+                            unfocusedIndicatorColor = colorResource(R.color.primary_color),
+                            unfocusedLabelColor = colorResource(R.color.primary_color),
+                            focusedLabelColor = colorResource(R.color.primary_color),
+                        ),
                     )
                     ExposedDropdownMenu(
                         expanded = expandedCategory,
@@ -120,7 +132,13 @@ fun FramesScreen(
                         label = {Text("Size")},
                         trailingIcon = {
                             ExposedDropdownMenuDefaults.TrailingIcon(expandedSize)
-                        }
+                        },
+                        colors = ExposedDropdownMenuDefaults.textFieldColors(
+                            focusedIndicatorColor = colorResource(R.color.primary_color),
+                            unfocusedIndicatorColor = colorResource(R.color.primary_color),
+                            unfocusedLabelColor = colorResource(R.color.primary_color),
+                            focusedLabelColor = colorResource(R.color.primary_color),
+                        )
                     )
                     ExposedDropdownMenu(
                         expanded = expandedSize,
@@ -151,14 +169,22 @@ fun FramesScreen(
                         selectedSize!!
                     )
                     onDismiss()
-                }
+                },
+                colors = ButtonColors(
+                    containerColor = colorResource(R.color.primary_color),
+                    contentColor = Color.White,
+                    disabledContainerColor = Color.Gray,
+                    disabledContentColor = Color.White
+                )
             ) {
-                Text("Add".uppercase())
+                Text(
+                    text = "Add".uppercase(),
+                )
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss ) {
-                Text("Cancel".uppercase())
+                Text("Cancel".uppercase(), color = colorResource(R.color.primary_color))
             }
         },
         icon = {
