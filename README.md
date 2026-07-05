@@ -6,58 +6,50 @@ Building by - Sangeeth Amirthanathan
 
 Time spent: TBA - building in progress
 
-## Custome UI Implementations
+## UIs Implementations
 
-UI | Custom FBA | Custom Bottom Nav Bar                     |
---- |------------|-------------------------------------------|
+UI | Custom FBA |  Bottom Nav Bar                                                                                   |
+--- |------------|---------------------------------------------------------------------------------------------------|
 Images | ![ezgif demo](https://www.image2url.com/r2/default/gifs/1783267693625-88f23b82-e06b-489b-9919-44c31f714232.gif) | ![img_6.png](https://cdn.phototourl.com/free/2026-07-05-47204c38-2508-45c1-ba11-d62396001140.png) |
 
-## Functionality
+## Functionalities
 
-The following **required** functionality is completed:
+**Required** functionalities:
 
-* [ ] Activities
-* [ ] Fragments
-* [ ] View Holder
-* [ ] Lifecycle
-* [ ] Activity Navigations
-* [ ] Fragment Navigations
-* [ ] Google maps
-* [ ] Custom layouts
-* [ ] Google Sign in
-* [ ] Screen Timeout
-* [ ] Firebase
-* [ ] App icon
+* [ ] customized composable screens
+* [ ] modern animated components
+* [ ] MVVM architecture lifecycle
+* [ ] Navigations using navigation3
+* [ ] fetch json api data
+* [ ] generate quotation as pdf
+* [ ] preview pdf
+* [ ] save quotations to MongoDB
+* [ ] retrieve quotations from db
+* [ ] user authentication
 
-The following **extensions** are implemented:
+The following **extensions** need to be implemented:
 
-* [ ] User need to sign with their google account
-* [ ] User can view home page that have overview of the company
-* [ ] User can view the location of author
-* [ ] imlemented custom bottom navigation bar
-* [ ] imlemented custom shapes
-* [ ] imlemented MVVM pattern
+* [ ] User need to sign with their user credentials
+* [ ] User can view home page that have generate quotation for categories of gifts
+* [ ] custom bottom navigation bar
+* [ ] custom composables widgets
+* [ ] MVVM pattern
 * [ ] user can see setting page that have profile details and logout
-* [ ] app will automatically check user is existing or not
-* [ ] if user incative for one minute alert dialog will display and user will be navigate to login screen
-
-
-The following **extensions** are not implemented:
-
-* [ ] implemented current location but cant be add current location marker - so implemented default marker with custom drawable of marker
+* [ ] user can generate quotations as pdf, share and saved on db
+* [ ] view past quotations
 
 
 ## Video walkthrough for potrait
 
-![XRecorder_29092-1664432201350](https://user-images.githubusercontent.com/42418189/192953863-77284364-2507-447c-a8b7-3e9a8569d088.gif)
+TAB
 
 ## Video walkthrough for session time out
 
-![XRecorder_Edite-1664429158864](https://user-images.githubusercontent.com/42418189/192946322-4e496488-00ba-470d-9be9-0a6e82074c9a.gif)
+TBA
 
 ## Video walkthrough for landscape
 
-![XRecorder_29092-1664432386624](https://user-images.githubusercontent.com/42418189/192954612-f99f3dbb-5c56-4959-ac6b-f25aaf86560a.gif)
+TBA
 
 ## Image Walkthrough
 
@@ -75,36 +67,24 @@ Here's a walkthrough of implemented user stories:
   </tr>
   <tr>
     <td>Images</td>
-    <td><img src="https://user-images.githubusercontent.com/42418189/192835293-674add0d-e87f-4c2c-9a3f-7c7a6a56bf5a.png" width="160"/></td>
-    <td><img src="https://user-images.githubusercontent.com/42418189/192952175-1fbdad61-8ea7-40c1-b8e8-b16aec29bd29.png" width="160"/></td>
-    <td><img src="https://user-images.githubusercontent.com/42418189/192835943-c57204e6-0e18-4949-8e1b-7542f0ebb6c3.png" width="160"/></td>
-    <td><img src="https://user-images.githubusercontent.com/42418189/192952227-f8c2a6d4-b974-46a6-98e5-4f000f0d3270.png" width="160"/></td>
-    <td><img src="https://user-images.githubusercontent.com/42418189/192952268-338b8cbf-2e6c-4e39-94a9-396aa6e0fa36.png" width="160"/></td>
-    <td><img src="https://user-images.githubusercontent.com/42418189/192946777-9919aa56-5303-43b5-9457-120b94d7c224.png" width="160"/></td>
+    <td>TBA</td>
+    <td>TBA</td>
+    <td>TBA</td>
+    <td>TBA</td>
+    <td>TBA</td>
+    <td>TBA</td>
   </tr>
 </table>
 
 
 # Screenshots Tablet
-Screen | Sign In Landscape |
---- | --- |
-Images | ![Screenshot_20220929_115919](https://user-images.githubusercontent.com/42418189/192955878-bc432adc-54a0-4c44-b8e6-04de8cd93af7.png) |
+Screen | Landscape |
+--- |-------------------|
+Images | TBA               |
 
+## Workflow Diagram
 
-
-## Notes
-
-Describe any challenges encountered while building the app.
-
-* [ ] Navigating Activities
-* [ ] Navigating Fragments
-* [ ] Dealing with build.gradle
-* [ ] Designing Application in XML
-* [ ] Design Custom UI
-* [ ] imlemented firebase authentications
-* [ ] imlemented bottom nav bar
-* [ ] imlemented view binding
-
+![img_2.png](img_2.png)
 
 ## License
 
@@ -123,4 +103,3 @@ Describe any challenges encountered while building the app.
     limitations under the License.
 
 
-![img_2.png](img_2.png)
