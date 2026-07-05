@@ -8,9 +8,9 @@ Time spent: TBA - building in progress
 
 ## Custome UI Implementations
 
-UI | Custom FBA | Custom Bottom Nav Bar |
---- |------------| --- | --- |
-Images | ![ezgif demo](https://www.image2url.com/r2/default/gifs/1783267693625-88f23b82-e06b-489b-9919-44c31f714232.gif) | ![img_6.png](img_6.png) |
+UI | Custom FBA | Custom Bottom Nav Bar                     |
+--- |------------|-------------------------------------------|
+Images | ![ezgif demo](https://www.image2url.com/r2/default/gifs/1783267693625-88f23b82-e06b-489b-9919-44c31f714232.gif) | ![img_6.png](https://cdn.phototourl.com/free/2026-07-05-47204c38-2508-45c1-ba11-d62396001140.png) |
 
 ## Functionality
 
