@@ -109,7 +109,7 @@ fun FloatingActionButton(
                 viewModel = viewModel,
                 onDismiss = { selectedItem = null },
                 onConfirm = { category, size ->
-                    viewModel.selectedFrame(category, size)
+                    viewModel.addFrame(category, size)
                     val price = viewModel.prices
                         ?.frames
                         ?.get(category)

@@ -19,7 +19,7 @@ class PriceViewModel : ViewModel() {
     var error by mutableStateOf<String?>(null)
         private set
 
-    var selectedFrame by mutableStateOf<SelectedFrame?>(null)
+    var selectedFrames by mutableStateOf<List<SelectedFrame>>(emptyList())
         private set
 
     init {
@@ -38,21 +38,33 @@ class PriceViewModel : ViewModel() {
         }
     }
 
-    fun selectedFrame(category: String, size: String){
+    fun addFrame(category: String, size: String){
         val price = prices
             ?.frames
             ?.get(category)
             ?.get(size)
 
-        selectedFrame = SelectedFrame(
+        val newFrame = SelectedFrame(
             category = category,
             size = size,
             price = price
         )
+
+        selectedFrames = selectedFrames.plus(newFrame)
     }
 
-    fun clearSelectedFrame(){
-        selectedFrame = null
+    fun removeFrame(frame: SelectedFrame){
+        selectedFrames = selectedFrames.minus(frame)
     }
+
+
+    fun clearSelectedFrame(){
+        selectedFrames = emptyList()
+    }
+
+    fun getTotalPrice(): Double {
+        return selectedFrames.sumOf { it.price?.toDouble() ?: 0.0 }
+    }
+
 }
 

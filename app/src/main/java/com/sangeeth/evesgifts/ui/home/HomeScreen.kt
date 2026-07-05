@@ -1,10 +1,14 @@
 package com.sangeeth.evesgifts.ui.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -29,7 +33,7 @@ import com.sangeeth.evesgifts.data.PriceViewModel
 fun HomeScreen(
     viewModel: PriceViewModel
 ) {
-    val selectedFrame = viewModel.selectedFrame
+    val selectedFrames = viewModel.selectedFrames
 
     Scaffold(
         floatingActionButton = { FloatingActionButton(viewModel) }
@@ -72,11 +76,31 @@ fun HomeScreen(
             Column {
                 Text("Frames Details")
 
-                selectedFrame?.let {
-                    Text("category: ${it.category}")
-                    Text("size: ${it.size}")
-                    Text("price: ${it.price}")
+                if (selectedFrames.isEmpty()){
+                    Text("no frames selected yet")
+                }else{
+                    Column (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .padding(top = 8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        selectedFrames.forEachIndexed { index, frame ->
+                            Text(
+                                text = "id: ${index+1}. categoryL ${frame.category}, size: ${frame.size}, price: ${frame.price?.toString() ?: "N/A"}",
+                                modifier = Modifier.padding(4.dp)
+                            )
+                        }
+
+                        Text(
+                            text = "Total: $${String.format("%.2f", viewModel.getTotalPrice())}",
+                            modifier = Modifier.padding(top = 8.dp),
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
+
             }
         }
 
