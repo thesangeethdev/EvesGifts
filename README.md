@@ -88,7 +88,7 @@ Images | TBA               |
 
 ## License
 
-    Copyright 2022 Sangeeth Amirthanathan, NSBOT
+    Copyright 2026 Sangeeth Amirthanathan, Eve's Gifts
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
