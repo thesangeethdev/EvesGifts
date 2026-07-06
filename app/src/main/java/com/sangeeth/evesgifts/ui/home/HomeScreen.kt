@@ -1,13 +1,16 @@
 package com.sangeeth.evesgifts.ui.home
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -83,14 +86,19 @@ fun HomeScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
-                            .padding(top = 8.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                            .padding(top = 8.dp).verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         selectedFrames.forEachIndexed { index, frame ->
-                            Text(
-                                text = "id: ${index+1}. categoryL ${frame.category}, size: ${frame.size}, price: ${frame.price?.toString() ?: "N/A"}",
-                                modifier = Modifier.padding(4.dp)
+                            AddedItemCardView(
+                                item = frame.category,
+                                size = frame.size,
+                                price = frame.price?.toString() ?: "N/A"
                             )
+//                            Text(
+//                                text = "id: ${index+1}. category ${frame.category}, size: ${frame.size}, price: ${frame.price?.toString() ?: "N/A"}",
+//                                modifier = Modifier.padding(4.dp)
+//                            )
                         }
 
                         Text(
