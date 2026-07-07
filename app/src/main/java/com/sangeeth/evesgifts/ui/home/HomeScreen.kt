@@ -36,7 +36,7 @@ import com.sangeeth.evesgifts.data.PriceViewModel
 fun HomeScreen(
     viewModel: PriceViewModel
 ) {
-    val selectedFrames = viewModel.selectedFrames
+    var selectedFrames = viewModel.selectedFrames
 
     Scaffold(
         floatingActionButton = { FloatingActionButton(viewModel) }
@@ -93,7 +93,10 @@ fun HomeScreen(
                             AddedItemCardView(
                                 item = frame.category,
                                 size = frame.size,
-                                price = frame.price?.toString() ?: "N/A"
+                                price = frame.price?.toString() ?: "N/A",
+                                onDelete = {
+                                    viewModel.removeFrame(frame)
+                                }
                             )
 //                            Text(
 //                                text = "id: ${index+1}. category ${frame.category}, size: ${frame.size}, price: ${frame.price?.toString() ?: "N/A"}",
