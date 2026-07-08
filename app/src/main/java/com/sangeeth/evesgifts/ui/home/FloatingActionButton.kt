@@ -120,7 +120,18 @@ fun FloatingActionButton(
         }
 
         "Cakes" -> {
-            CakesScreen(onDismiss = { selectedItem = null })
+            FramesScreen(
+                viewModel = viewModel,
+                onDismiss = { selectedItem = null },
+                onConfirm = { category, size ->
+                    viewModel.addFrame(category, size)
+                    val price = viewModel.prices
+                        ?.cakes
+                        ?.get(category)
+
+                    Log.d("selected frame", "$category $size $price")
+                }
+            )
         }
 
         "Gifts" -> {
