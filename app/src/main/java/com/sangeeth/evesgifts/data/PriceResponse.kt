@@ -4,6 +4,6 @@ import com.google.gson.JsonObject
 
 data class PriceResponse(
     val frames: Map<String, Map<String, Int?>>,
-    val cakes: Map<String, String>,
-    val gifts: Map<String, String>
+    val cakes: Cakes,
+    val gifts: Gifts
 )

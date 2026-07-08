@@ -22,6 +22,8 @@ class PriceViewModel : ViewModel() {
     var selectedFrames by mutableStateOf<List<SelectedFrame>>(emptyList())
         private set
 
+    var selectedCakes by mutableStateOf<List<SelectedCake>>(emptyList())
+
     init {
         loadData()
     }
@@ -90,6 +92,73 @@ class PriceViewModel : ViewModel() {
         selectedFrames = emptyList()
     }
 
+    fun addCake(category: String, subType: String? = null, quantity: Int = 1){
+        val price = when {
+            category == "birthday_cake" && subType != null -> {
+                prices?.cakes?.birthday_cake?.let { cake ->
+                    when (subType) {
+                        "butter" -> cake.butter.price
+                        "chocolate" -> cake.chocolate.price
+                        else -> null
+                    }
+                }
+            }
+
+            else -> {
+                prices?.cakes?.let { cakes ->
+                    when (category) {
+                        "butter_cake" -> cakes.butter_cake.price
+                        "chocolate_cake" -> cakes.chocolate_cake.price
+                        "butter_cup_cake" -> cakes.butter_cup_cake.price
+                        "chocolate_cup_cake" -> cakes.chocolate_cup_cake.price
+                        "marble_cake" -> cakes.marble_cake.price
+                        "ribbon_cake" -> cakes.ribbon_cake.price
+                        else -> null
+                    }
+                }
+            }
+        }
+
+        val existingIndex = selectedCakes.indexOfFirst {
+            it.category == category && it.subType == subType
+        }
+
+        if (existingIndex != -1) {
+            selectedCakes = selectedCakes.mapIndexed { index, cake ->
+                if (index == existingIndex) {
+                    cake.copy(quantity = cake.quantity + quantity)
+                }else {
+                    cake
+                }
+            }
+        }else{
+            val newCake = SelectedCake(
+                category = category,
+                subType = subType,
+                price = price,
+                quantity = quantity
+            )
+            selectedCakes = selectedCakes.plus(newCake)
+        }
+
+        fun removeCake(cake: SelectedCake){
+            selectedCakes = selectedCakes.minus(cake)
+        }
+
+        fun updateCakeQuantity(cake: SelectedCake, newQuantity: Int) {
+            if (newQuantity <= 0){
+                removeCake(cake)
+            }else{
+                selectedCakes = selectedCakes.map {
+                    if (it == cake) it.copy(quantity = newQuantity) else it
+                }
+            }
+        }
+
+        fun clearCakes(){
+            selectedCakes = emptyList()
+        }
+    }
     fun getTotalPrice(): Double {
         return selectedFrames.sumOf { (it.price?.toDouble() ?: 0.0) * it.quantity }
     }
