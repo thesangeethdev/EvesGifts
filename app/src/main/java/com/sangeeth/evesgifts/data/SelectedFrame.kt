@@ -6,5 +6,6 @@ data class SelectedFrame(
     var category: String,
     var size: String,
     var price: Int?,
+    var quantity: Int = 1,
     val id: String = UUID.randomUUID().toString()
 )

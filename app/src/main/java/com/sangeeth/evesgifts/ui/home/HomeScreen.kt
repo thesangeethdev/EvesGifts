@@ -36,14 +36,16 @@ import com.sangeeth.evesgifts.data.PriceViewModel
 fun HomeScreen(
     viewModel: PriceViewModel
 ) {
-    var selectedFrames = viewModel.selectedFrames
+//    var selectedFrames = viewModel.selectedFrames
 
     Scaffold(
         floatingActionButton = { FloatingActionButton(viewModel) }
     ) {
-        Column(modifier = Modifier
-            .padding(20.dp)
-            .padding(it)) {
+        Column(
+            modifier = Modifier
+                .padding(20.dp)
+                .padding(it)
+        ) {
             Text(
                 text = "Create Quotation",
                 modifier = Modifier.fillMaxWidth(),
@@ -79,23 +81,32 @@ fun HomeScreen(
             Column {
                 Text("Frames Details")
 
-                if (selectedFrames.isEmpty()){
+                if (viewModel.selectedFrames.isEmpty()) {
                     Text("no frames selected yet")
-                }else{
-                    Column (
+                } else {
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
-                            .padding(top = 8.dp).verticalScroll(rememberScrollState()),
+                            .padding(top = 8.dp)
+                            .verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        selectedFrames.forEachIndexed { index, frame ->
+                        viewModel.selectedFrames.forEach { frame ->
                             AddedItemCardView(
                                 item = frame.category,
                                 size = frame.size,
                                 price = frame.price?.toString() ?: "N/A",
                                 onDelete = {
                                     viewModel.removeFrame(frame)
+                                },
+                                quantity = frame.quantity,
+                                onQuantityChange = { newQuantity ->
+                                    viewModel.updateQuantity(
+                                        frame = frame,
+                                        newQuantity = newQuantity
+                                    )
+
                                 }
                             )
 //                            Text(

@@ -25,45 +25,73 @@ class PriceViewModel : ViewModel() {
     init {
         loadData()
     }
+
     fun loadData() {
         viewModelScope.launch {
             loading = true
 
             try {
                 prices = repository.fetchPrices()
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 error = e.localizedMessage
             }
             loading = false
         }
     }
 
-    fun addFrame(category: String, size: String){
+    fun addFrame(category: String, size: String, quality: Int = 1) {
         val price = prices
             ?.frames
             ?.get(category)
             ?.get(size)
 
-        val newFrame = SelectedFrame(
-            category = category,
-            size = size,
-            price = price
-        )
+        val existingIndex = selectedFrames.indexOfFirst {
+            it.category == category && it.size == size
+        }
 
-        selectedFrames = selectedFrames.plus(newFrame)
+        if (existingIndex != -1) {
+
+            selectedFrames = selectedFrames.mapIndexed { index, frame ->
+                if (index == existingIndex){
+                   frame.copy(quantity = frame.quantity + quality)
+                } else
+                    frame
+            }
+        } else {
+            val newFrame = SelectedFrame(
+                category = category,
+                size = size,
+                price = price,
+                quantity = quality
+            )
+
+            selectedFrames = selectedFrames.plus(newFrame)
+        }
     }
 
-    fun removeFrame(frame: SelectedFrame){
+    fun removeFrame(frame: SelectedFrame) {
         selectedFrames = selectedFrames.minus(frame)
     }
 
 
-    fun clearSelectedFrame(){
+    //updateQuantity
+    fun updateQuantity(frame: SelectedFrame, newQuantity: Int) {
+
+        if (newQuantity <= 0) {
+            removeFrame(frame)
+        } else {
+            selectedFrames = selectedFrames.map {
+                if (it == frame) it.copy(quantity = newQuantity) else it
+            }
+        }
+    }
+
+    fun clearSelectedFrame() {
         selectedFrames = emptyList()
     }
 
     fun getTotalPrice(): Double {
-        return selectedFrames.sumOf { it.price?.toDouble() ?: 0.0 }
+        return selectedFrames.sumOf { (it.price?.toDouble() ?: 0.0) * it.quantity }
     }
 
 }

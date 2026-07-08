@@ -34,7 +34,7 @@ import com.sangeeth.evesgifts.R
 @Composable
 fun AddedItemCardView(
     item: String,
-    size: String,
+    size: String?,
     price: String,
     quantity: Int = 1,
     onQuantityChange: (Int) -> Unit = {},
@@ -65,7 +65,7 @@ fun AddedItemCardView(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = size,
+                    text = size!!,
                     color = Color.Gray,
                     fontFamily = FontFamily.Default,
                     fontWeight = FontWeight.ExtraBold
