@@ -164,7 +164,9 @@ class PriceViewModel : ViewModel() {
     }
 
     fun getTotalPrice(): Double {
-        return selectedFrames.sumOf { (it.price?.toDouble() ?: 0.0) * it.quantity }
+        val frameTotal = selectedFrames.sumOf { (it.price?.toDouble() ?: 0.0) * it.quantity }
+        val cakeTotal = selectedCakes.sumOf { (it.price?.toDouble() ?: 0.0) * it.quantity }
+        return frameTotal + cakeTotal
     }
 
 }
