@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 object RetrofitClient {
-    private const val BASE_URL = "https://zansangeeth.github.io/"
+    private const val BASE_URL = "https://thesangeethdev.github.io/"
 
     val api : PriceAPI by lazy {
         Retrofit.Builder()

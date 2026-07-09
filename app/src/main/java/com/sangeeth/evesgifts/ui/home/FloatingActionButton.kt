@@ -51,6 +51,7 @@ fun FloatingActionButton(
 
     var expanded by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf<String?>(null) }
+    var showCakesDialog by remember { mutableStateOf(false) }
 
     val items = listOf(
         FabItems(icon = R.drawable.ic_frames, title = "Frames"),
@@ -120,16 +121,11 @@ fun FloatingActionButton(
         }
 
         "Cakes" -> {
-            FramesScreen(
-                viewModel = viewModel,
-                onDismiss = { selectedItem = null },
-                onConfirm = { category, size ->
-                    viewModel.addFrame(category, size)
-                    val price = viewModel.prices
-                        ?.cakes
-                        ?.get(category)
-
-                    Log.d("selected frame", "$category $size $price")
+            AddCakeScreen (
+                onDismiss = {selectedItem = null},
+                onConfirm = { category, subType ->
+                    viewModel.addCake(category, subType)
+                    selectedItem = null
                 }
             )
         }

@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sangeeth.evesgifts.R
 import com.sangeeth.evesgifts.data.PriceViewModel
+import java.util.Locale
+import kotlin.text.replace
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,8 +38,8 @@ import com.sangeeth.evesgifts.data.PriceViewModel
 fun HomeScreen(
     viewModel: PriceViewModel
 ) {
-//    var selectedFrames = viewModel.selectedFrames
-
+    val selectedFrames = viewModel.selectedFrames
+    val selectedCake = viewModel.selectedCakes
     Scaffold(
         floatingActionButton = { FloatingActionButton(viewModel) }
     ) {
@@ -81,8 +83,8 @@ fun HomeScreen(
             Column {
                 Text("Frames Details")
 
-                if (viewModel.selectedFrames.isEmpty()) {
-                    Text("no frames selected yet")
+                if (viewModel.selectedFrames.isEmpty() && viewModel.selectedCakes.isEmpty()) {
+                    Text("no items selected yet")
                 } else {
                     Column(
                         modifier = Modifier
@@ -92,7 +94,7 @@ fun HomeScreen(
                             .verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        viewModel.selectedFrames.forEach { frame ->
+                        selectedFrames.forEach { frame ->
                             AddedItemCardView(
                                 item = frame.category,
                                 size = frame.size,
@@ -113,6 +115,23 @@ fun HomeScreen(
 //                                text = "id: ${index+1}. category ${frame.category}, size: ${frame.size}, price: ${frame.price?.toString() ?: "N/A"}",
 //                                modifier = Modifier.padding(4.dp)
 //                            )
+                        }
+
+                        selectedCake.forEach { cake ->
+                            AddedItemCardView(
+                                item = cake.category.replace("_", " ")?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(locale = Locale.ROOT) else it.toString() } ?: "",
+                                size = cake.subType?.replace("_", " ")?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(locale = Locale.ROOT) else it.toString() } ?: "Standard",
+                                price = cake.price.toString(),
+                                onQuantityChange = { newQuantity ->
+                                    viewModel.updateCakeQuantity(
+                                        cake = cake,
+                                        newQuantity = newQuantity
+                                    )
+                                },
+                                onDelete = {
+                                    viewModel.removeCake(cake = cake)
+                                }
+                            )
                         }
 
                         Text(

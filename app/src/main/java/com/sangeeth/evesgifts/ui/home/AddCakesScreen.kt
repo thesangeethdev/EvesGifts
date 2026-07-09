@@ -1,6 +1,5 @@
 package com.sangeeth.evesgifts.ui.home
 
-import android.R.attr.enabled
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +11,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuBoxScope.menuAnchor
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -25,16 +23,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.type
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sangeeth.evesgifts.R
 import com.sangeeth.evesgifts.data.PriceViewModel
-import org.w3c.dom.Text
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,7 +37,7 @@ import java.util.Locale
 fun AddCakeScreen(
     onDismiss: () -> Unit,
     viewModel: PriceViewModel = viewModel(),
-    onConfirm: (category: String, subType: String) -> Unit
+    onConfirm: (category: String, subType: String?) -> Unit
 ) {
 
     val cakes = viewModel.prices?.cakes
@@ -60,7 +55,7 @@ fun AddCakeScreen(
     var selectedSubType by remember { mutableStateOf<String?>(null) }
 
     val showSubType = selectedCategory == "birthday_cake"
-    val subType = listOf("butter", "chocolate")
+    val subTypes = listOf("butter", "chocolate")
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -126,7 +121,7 @@ fun AddCakeScreen(
                     ) {
                         OutlinedTextField(
                             modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable, true),
-                            value = selectedCategory?.replace("_", " ")?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(locale = Locale.ROOT) else it.toString() } ?: "",
+                            value = selectedSubType?.replace("_", " ")?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(locale = Locale.ROOT) else it.toString() } ?: "",
                             onValueChange = {},
                             readOnly = true,
                             label = { Text("Cake Flavor") },
@@ -141,7 +136,7 @@ fun AddCakeScreen(
                             expanded = expandedSubType,
                             onDismissRequest = {expandedSubType = false}
                         ) {
-                            cakeCategories.forEach { subType ->
+                            subTypes.forEach { subType ->
                                 DropdownMenuItem(
                                     text = {
                                         Text(subType.replace("_", " ").replaceFirstChar { if (it.isLowerCase()) it.titlecase(locale = Locale.ROOT) else it.toString() })
@@ -199,7 +194,7 @@ fun AddCakeScreen(
                 onClick = {
                     onConfirm(
                         selectedCategory!!,
-                        if (selectedCategory == "birthday_cake") selectedSubType ?: "" else ""
+                        if (selectedCategory == "birthday_cake") selectedSubType else null
                     )
                     onDismiss()
                 },

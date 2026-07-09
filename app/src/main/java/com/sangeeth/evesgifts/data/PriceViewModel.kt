@@ -23,6 +23,7 @@ class PriceViewModel : ViewModel() {
         private set
 
     var selectedCakes by mutableStateOf<List<SelectedCake>>(emptyList())
+        private set
 
     init {
         loadData()
@@ -141,24 +142,27 @@ class PriceViewModel : ViewModel() {
             selectedCakes = selectedCakes.plus(newCake)
         }
 
-        fun removeCake(cake: SelectedCake){
-            selectedCakes = selectedCakes.minus(cake)
-        }
 
-        fun updateCakeQuantity(cake: SelectedCake, newQuantity: Int) {
-            if (newQuantity <= 0){
-                removeCake(cake)
-            }else{
-                selectedCakes = selectedCakes.map {
-                    if (it == cake) it.copy(quantity = newQuantity) else it
-                }
-            }
-        }
 
         fun clearCakes(){
             selectedCakes = emptyList()
         }
     }
+
+    fun removeCake(cake: SelectedCake){
+        selectedCakes = selectedCakes.minus(cake)
+    }
+
+    fun updateCakeQuantity(cake: SelectedCake, newQuantity: Int) {
+        if (newQuantity <= 0){
+            removeCake(cake)
+        }else{
+            selectedCakes = selectedCakes.map {
+                if (it == cake) it.copy(quantity = newQuantity) else it
+            }
+        }
+    }
+
     fun getTotalPrice(): Double {
         return selectedFrames.sumOf { (it.price?.toDouble() ?: 0.0) * it.quantity }
     }
