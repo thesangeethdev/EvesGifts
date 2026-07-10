@@ -1,7 +1,9 @@
 package com.sangeeth.evesgifts.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -14,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -41,6 +44,7 @@ fun HomeScreen(
     ) {
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .padding(20.dp)
                 .padding(it)
         ) {
@@ -76,20 +80,27 @@ fun HomeScreen(
                 )
             )
 
-            Column {
-                Text("Frames Details")
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
+//                Text("Frames Details")
 
-                if (viewModel.selectedFrames.isEmpty() && viewModel.selectedCakes.isEmpty() && viewModel.selectedGifts.isEmpty()) {
-                    Text("no items selected yet")
-                } else {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                            .padding(top = 8.dp)
-                            .verticalScroll(rememberScrollState()),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
+//                if (viewModel.selectedFrames.isEmpty() && viewModel.selectedCakes.isEmpty() && viewModel.selectedGifts.isEmpty()) {
+//                    Text("no items selected yet")
+//                } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .padding(top = 8.dp)
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    if (viewModel.selectedFrames.isEmpty() && viewModel.selectedCakes.isEmpty() && viewModel.selectedGifts.isEmpty()) {
+                        Text("no items selected yet")
+                    } else {
                         selectedFrames.forEach { frame ->
                             AddedItemCardView(
                                 item = frame.category,
@@ -116,10 +127,18 @@ fun HomeScreen(
                         selectedCake.forEach { cake ->
                             AddedItemCardView(
                                 item = cake.category.replace("_", " ")
-                                    ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(locale = Locale.ROOT) else it.toString() }
+                                    ?.replaceFirstChar {
+                                        if (it.isLowerCase()) it.titlecase(
+                                            locale = Locale.ROOT
+                                        ) else it.toString()
+                                    }
                                     ?: "",
                                 size = cake.subType?.replace("_", " ")
-                                    ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(locale = Locale.ROOT) else it.toString() }
+                                    ?.replaceFirstChar {
+                                        if (it.isLowerCase()) it.titlecase(
+                                            locale = Locale.ROOT
+                                        ) else it.toString()
+                                    }
                                     ?: "Standard",
                                 price = cake.price.toString(),
                                 onQuantityChange = { newQuantity ->
@@ -137,7 +156,11 @@ fun HomeScreen(
                         selectedGifts.forEach { gifts ->
                             AddedItemCardView(
                                 item = gifts.category.replace("_", " ")
-                                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(locale = Locale.ROOT) else it.toString() }
+                                    .replaceFirstChar {
+                                        if (it.isLowerCase()) it.titlecase(
+                                            locale = Locale.ROOT
+                                        ) else it.toString()
+                                    }
                                     ?: "",
                                 size = "Gift",
                                 price = gifts.price ?: "N/A",
@@ -151,18 +174,24 @@ fun HomeScreen(
                             )
                         }
 
-                        Text(
-                            text = "Total: Rs${String.format("%.2f", viewModel.getTotalPrice())}",
-                            modifier = Modifier.padding(top = 8.dp),
-                            fontWeight = FontWeight.Bold
-                        )
+
+
                     }
                 }
-
+                Text(
+                    text = "Total: Rs${
+                        String.format(
+                            "%.2f",
+                            viewModel.getTotalPrice()
+                        )
+                    }",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
-
-
     }
 }
 
