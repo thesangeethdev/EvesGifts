@@ -16,7 +16,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -46,7 +49,8 @@ import com.sangeeth.evesgifts.data.PriceViewModel
 
 @Composable
 fun FloatingActionButton(
-    viewModel: PriceViewModel
+    viewModel: PriceViewModel,
+    modifier: Modifier
 ) {
 
     var expanded by remember { mutableStateOf(false) }
@@ -58,15 +62,24 @@ fun FloatingActionButton(
         FabItems(icon = R.drawable.ic_cakes, title = "Cakes"),
         FabItems(icon = R.drawable.ic_gifts, title = "Gifts"),
     )
-    Column(horizontalAlignment = Alignment.End) {
+    Box(
+        modifier = modifier.height(300.dp),
+//        horizontalAlignment = Alignment.End
+        contentAlignment = Alignment.BottomEnd
+    ) {
 
         AnimatedVisibility(
             visible = expanded,
+            modifier = Modifier.align(Alignment.BottomEnd).offset(y = (-65).dp),
             enter = fadeIn() + slideInVertically(initialOffsetY = { it }) + expandVertically(),
             exit = fadeOut() + slideOutVertically(targetOffsetY = { it }) + shrinkVertically(),
         ) {
 
-            LazyColumn(modifier = Modifier.padding(8.dp)) {
+            LazyColumn(
+                modifier = Modifier.padding(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.End
+            ) {
                 items(items.size) {
 
                     itemUI(
@@ -77,7 +90,7 @@ fun FloatingActionButton(
                             selectedItem = title
                         }
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+//                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
 

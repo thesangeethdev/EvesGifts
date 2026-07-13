@@ -3,8 +3,11 @@ package com.sangeeth.evesgifts.ui.home
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldLineLimits
@@ -18,6 +21,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,13 +44,21 @@ fun HomeScreen(
     val selectedGifts = viewModel.selectedGifts
 
     Scaffold(
-        floatingActionButton = { FloatingActionButton(viewModel) }
-    ) {
+//        floatingActionButton = { FloatingActionButton(viewModel) }
+        floatingActionButton = {
+            FloatingActionButton(
+                viewModel = viewModel,
+                modifier = Modifier.padding(bottom = 70.dp)
+            )
+        }
+
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
                 .padding(20.dp)
-                .padding(it)
+
         ) {
             Text(
                 text = "Create Quotation",
@@ -85,11 +97,11 @@ fun HomeScreen(
                     .fillMaxWidth()
                     .weight(1f)
             ) {
-//                Text("Frames Details")
+                //                Text("Frames Details")
 
-//                if (viewModel.selectedFrames.isEmpty() && viewModel.selectedCakes.isEmpty() && viewModel.selectedGifts.isEmpty()) {
-//                    Text("no items selected yet")
-//                } else {
+                //                if (viewModel.selectedFrames.isEmpty() && viewModel.selectedCakes.isEmpty() && viewModel.selectedGifts.isEmpty()) {
+                //                    Text("no items selected yet")
+                //                } else {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -118,10 +130,10 @@ fun HomeScreen(
 
                                 }
                             )
-//                            Text(
-//                                text = "id: ${index+1}. category ${frame.category}, size: ${frame.size}, price: ${frame.price?.toString() ?: "N/A"}",
-//                                modifier = Modifier.padding(4.dp)
-//                            )
+                            //                            Text(
+                            //                                text = "id: ${index+1}. category ${frame.category}, size: ${frame.size}, price: ${frame.price?.toString() ?: "N/A"}",
+                            //                                modifier = Modifier.padding(4.dp)
+                            //                            )
                         }
 
                         selectedCake.forEach { cake ->
@@ -176,21 +188,40 @@ fun HomeScreen(
                         }
 
 
-
                     }
                 }
-                Text(
-                    text = "Total: Rs${
-                        String.format(
-                            "%.2f",
-                            viewModel.getTotalPrice()
+
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ){
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth().padding(bottom = 15.dp)
+//                        horizontalArrangement = Arrangement.SpaceBetween,
+//                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Total: Rs${
+                                String.format(
+                                    "%.2f",
+                                    viewModel.getTotalPrice()
+                                )
+                            }",
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .padding(top = 8.dp),
+                            fontWeight = FontWeight.Bold
                         )
-                    }",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    fontWeight = FontWeight.Bold
-                )
+                    }
+//                    Spacer(modifier = Modifier.height(12.dp))
+
+                    GenerateQuoteButton(
+                        hasItems = selectedFrames.isNotEmpty() || selectedGifts.isNotEmpty() || selectedCake.isNotEmpty(),
+                        onClick = {
+
+                        }
+                    )
+                }
             }
         }
     }
