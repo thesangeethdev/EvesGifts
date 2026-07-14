@@ -1,6 +1,7 @@
 package com.sangeeth.evesgifts.utils
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.pdf.PdfDocument
 import android.os.Environment
 import android.widget.Toast
@@ -16,6 +17,8 @@ import com.sangeeth.evesgifts.data.SelectedGifts
 import android.graphics.*
 import android.icu.text.SimpleDateFormat
 import android.provider.CalendarContract
+import java.io.File
+import java.io.FileOutputStream
 import java.util.Date
 
 
@@ -106,5 +109,78 @@ fun PDFGenerator(
 
         val total = (frame.price?.toDouble() ?: 0.0) * frame.quantity
         canvas.drawText("Rs. %.2f".format(total), 470f, y, textPaint)
+
+        y += 20
     }
+
+    cakes.forEach { cake ->
+        canvas.drawText(cake.category, 40f, y, textPaint)
+        canvas.drawText(cake.subType!!, 230f, y, textPaint)
+        canvas.drawText(cake.quantity.toString(), 360f, y, textPaint)
+
+        val total = (cake.price?.toDouble() ?: 0.0) * cake.quantity
+        canvas.drawText("Rs. %.2f".format(total), 470f, y, textPaint)
+
+        y += 20
+    }
+
+    gifts.forEach { gift ->
+        canvas.drawText(gift.category, 40f, y, textPaint)
+        canvas.drawText(gift.quantity.toString(), 360f, y, textPaint)
+
+        val total = (gift.price?.toDouble() ?: 0.0) * gift.quantity
+        canvas.drawText("Rs. %.2f".format(total), 470f, y, textPaint)
+
+        y += 20
+    }
+
+    y += 20
+    canvas.drawLine(40f, y, 555f, y, linePaint)
+
+    y += 30
+    canvas.drawText(
+        "Total : Rs. %.2f".format(totalPrice),
+        360f,
+        y,
+        headerPaint
+    )
+
+    y += 50
+    canvas.drawText(
+        "Thank you for choosing Eve's Gifts",
+        150f,
+        y,
+        textPaint
+    )
+
+    pdfDocument.finishPage(page)
+
+    val file  = File(
+        context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+        "Quotation_${System.currentTimeMillis()}.pdf"
+    )
+
+    FileOutputStream(file).use {
+        pdfDocument.writeTo(it)
+    }
+
+    pdfDocument.close()
+
+    val uri = FileProvider.getUriForFile(
+        context,
+        "${context.packageName}.fileprovider",
+        file
+    )
+
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "application/pdf"
+        putExtra(Intent.EXTRA_STREAM, uri)
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
+
+    context.startActivity(
+        Intent.createChooser(intent, "Share PDF").apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+    )
 }
