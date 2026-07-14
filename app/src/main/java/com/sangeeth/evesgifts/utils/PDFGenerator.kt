@@ -1,17 +1,20 @@
 package com.sangeeth.evesgifts.utils
 
 import android.content.Context
+import android.graphics.pdf.PdfDocument
 import android.os.Environment
 import android.widget.Toast
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.core.content.FileProvider
+import com.sangeeth.evesgifts.R
 import com.sangeeth.evesgifts.data.SelectedCake
 import com.sangeeth.evesgifts.data.SelectedFrame
 import com.sangeeth.evesgifts.data.SelectedGifts
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.Locale.getDefault
+import android.graphics.*
+import android.provider.CalendarContract
 
 fun PDFGenerator(
     context: Context,
@@ -23,20 +26,33 @@ fun PDFGenerator(
     totalPrice: Double
 ){
 
-    try {
+    val pdfDocument = PdfDocument()
 
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmss", getDefault()).format((Date()))
+    val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
+    val page = pdfDocument.startPage(pageInfo)
+    val canvas = page.canvas
 
-        val fileName = "Quotation_$timeStamp.pdf"
-
-        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), fileName)
-
-        val fileUri  = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
-
-//        val writer = Pdd
-    }catch (e: Exception){
-        e.printStackTrace()
-        Toast.makeText(context, "error ${e.message}", Toast.LENGTH_SHORT).show()
+    val titlePaint = android.graphics.Paint().apply {
+        textSize = 22f
+        color = android.graphics.Color.BLACK
+        typeface = Typeface.DEFAULT_BOLD
     }
+
+    val headerPaint = android.graphics.Paint().apply {
+        textSize = 12f
+        color = android.graphics.Color.BLACK
+        typeface = Typeface.DEFAULT_BOLD
+    }
+
+    val textPaint = android.graphics.Paint().apply {
+        textSize = 22f
+        color = android.graphics.Color.BLACK
+    }
+
+    val linePaint = android.graphics.Paint().apply {
+        strokeWidth = 1f
+        color = android.graphics.Color.LTGRAY
+    }
+
 
 }
