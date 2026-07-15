@@ -1,29 +1,28 @@
 package com.sangeeth.evesgifts.utils
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
 import android.icu.text.SimpleDateFormat
+import android.net.Uri
 import android.os.Environment
-import androidx.core.content.FileProvider
 import com.sangeeth.evesgifts.data.SelectedCake
 import com.sangeeth.evesgifts.data.SelectedFrame
 import com.sangeeth.evesgifts.data.SelectedGifts
 import java.io.File
-import java.io.FileOutputStream
 import java.util.Date
 
 
 fun pdfGenerator(
     context: Context,
+    uri: Uri,
     quotationId: String,
     customerName: String,
     frames: List<SelectedFrame>,
     cakes: List<SelectedCake>,
     gifts: List<SelectedGifts>,
     totalPrice: Double
-){
+) {
 
     val pdfDocument = PdfDocument()
 
@@ -148,32 +147,15 @@ fun pdfGenerator(
 
     pdfDocument.finishPage(page)
 
-    val file  = File(
+    val file = File(
         context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
         "Quotation_${System.currentTimeMillis()}.pdf"
     )
 
-    FileOutputStream(file).use {
+    context.contentResolver.openOutputStream(uri)?.use {
         pdfDocument.writeTo(it)
     }
 
     pdfDocument.close()
 
-    val uri = FileProvider.getUriForFile(
-        context,
-        "${context.packageName}.fileprovider",
-        file
-    )
-
-    val intent = Intent(Intent.ACTION_SEND).apply {
-        type = "application/pdf"
-        putExtra(Intent.EXTRA_STREAM, uri)
-        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-    }
-
-    context.startActivity(
-        Intent.createChooser(intent, "Share PDF").apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-    )
 }

@@ -1,5 +1,9 @@
 package com.sangeeth.evesgifts.ui.home
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,6 +50,25 @@ fun HomeScreen(
 
     val context = LocalContext.current
     val customerName = rememberTextFieldState()
+    val quotationId = "Q-${System.currentTimeMillis()}"
+
+    val savePdf = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("application/pdf")
+    ) { uri : Uri?->
+        uri?.let {
+            pdfGenerator(
+                context = context,
+                uri = it,
+                quotationId = "Q-${System.currentTimeMillis()}",
+                customerName = customerName.text.toString(),
+                frames = selectedFrames,
+                cakes = selectedCake,
+                gifts = selectedGifts,
+                totalPrice = viewModel.getTotalPrice()
+            )
+        }
+    }
+
 
     Scaffold(
 //        floatingActionButton = { FloatingActionButton(viewModel) }
@@ -218,19 +241,10 @@ fun HomeScreen(
                         )
                     }
 //                    Spacer(modifier = Modifier.height(12.dp))
-
                     GenerateQuoteButton(
                         hasItems = selectedFrames.isNotEmpty() || selectedGifts.isNotEmpty() || selectedCake.isNotEmpty(),
                         onClick = {
-                            pdfGenerator(
-                                context = context,
-                                quotationId = "Q-${System.currentTimeMillis()}",
-                                customerName = customerName.text.toString(),
-                                frames = selectedFrames,
-                                cakes = selectedCake,
-                                gifts = selectedGifts,
-                                totalPrice = viewModel.getTotalPrice()
-                            )
+                            savePdf.launch("Quotation_$quotationId.pdf")
                         }
                     )
                 }
