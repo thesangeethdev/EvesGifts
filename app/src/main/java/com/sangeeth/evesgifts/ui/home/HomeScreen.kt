@@ -1,6 +1,7 @@
 package com.sangeeth.evesgifts.ui.home
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
@@ -57,9 +58,12 @@ fun HomeScreen(
     val customerName = rememberTextFieldState()
     val quotationId = "Q-${System.currentTimeMillis()}"
 
+    val hasCustomerName = customerName.text.isNotBlank()
+    val hasItems = selectedFrames.isNotEmpty() || selectedGifts.isNotEmpty() || selectedCake.isNotEmpty()
+
     val savePdf = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument("application/pdf")
-    ) { uri : Uri?->
+    ) { uri: Uri? ->
         uri?.let {
             pdfGenerator(
                 context = context,
@@ -76,14 +80,14 @@ fun HomeScreen(
 //                pdfByte = pdfBytes,
 //                quotationId = quotationId,
 //                onComplete = { pdfUrl ->
-                    saveQuotation(
-                        quotationId = quotationId,
-                        customerName = customerName.text.toString(),
-                        totalPrice = viewModel.getTotalPrice(),
+            saveQuotation(
+                quotationId = quotationId,
+                customerName = customerName.text.toString(),
+                totalPrice = viewModel.getTotalPrice(),
 //                        pdfUrl = pdfUrl
-                    ){
-                        isGenerating = false
-                    }
+            ) {
+                isGenerating = false
+            }
 //                },
 //                onError = {
 //                    it.printStackTrace()
@@ -244,10 +248,11 @@ fun HomeScreen(
 
                 Column(
                     modifier = Modifier.fillMaxWidth()
-                ){
+                ) {
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth().padding(bottom = 15.dp)
+                            .fillMaxWidth()
+                            .padding(bottom = 15.dp)
 //                        horizontalArrangement = Arrangement.SpaceBetween,
 //                        verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -266,14 +271,14 @@ fun HomeScreen(
                     }
 //                    Spacer(modifier = Modifier.height(12.dp))
                     GenerateQuoteButton(
-                        hasItems = selectedFrames.isNotEmpty() || selectedGifts.isNotEmpty() || selectedCake.isNotEmpty(),
+                        hasItems =  hasItems && hasCustomerName,
                         loading = isGenerating,
                         onClick = {
                             isGenerating = true
                             savePdf.launch("Quotation_$quotationId.pdf")
                         },
 
-                    )
+                        )
                 }
             }
         }
