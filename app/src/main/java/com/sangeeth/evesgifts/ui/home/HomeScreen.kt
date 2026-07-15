@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +36,8 @@ import androidx.compose.ui.unit.sp
 import com.sangeeth.evesgifts.R
 import com.sangeeth.evesgifts.data.PriceViewModel
 import com.sangeeth.evesgifts.utils.pdfGenerator
+import com.sangeeth.evesgifts.utils.saveQuotation
+import com.sangeeth.evesgifts.utils.uploadQuotationPdf
 import java.util.Locale
 import kotlin.text.replace
 
@@ -47,6 +50,8 @@ fun HomeScreen(
     val selectedFrames = viewModel.selectedFrames
     val selectedCake = viewModel.selectedCakes
     val selectedGifts = viewModel.selectedGifts
+
+    var isGenerating by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
     val customerName = rememberTextFieldState()
@@ -66,6 +71,25 @@ fun HomeScreen(
                 gifts = selectedGifts,
                 totalPrice = viewModel.getTotalPrice()
             )
+
+//            uploadQuotationPdf(
+//                pdfByte = pdfBytes,
+//                quotationId = quotationId,
+//                onComplete = { pdfUrl ->
+                    saveQuotation(
+                        quotationId = quotationId,
+                        customerName = customerName.text.toString(),
+                        totalPrice = viewModel.getTotalPrice(),
+//                        pdfUrl = pdfUrl
+                    ){
+                        isGenerating = false
+                    }
+//                },
+//                onError = {
+//                    it.printStackTrace()
+//                    isGenerating = false
+//                }
+//            )
         }
     }
 
@@ -243,9 +267,12 @@ fun HomeScreen(
 //                    Spacer(modifier = Modifier.height(12.dp))
                     GenerateQuoteButton(
                         hasItems = selectedFrames.isNotEmpty() || selectedGifts.isNotEmpty() || selectedCake.isNotEmpty(),
+                        loading = isGenerating,
                         onClick = {
+                            isGenerating = true
                             savePdf.launch("Quotation_$quotationId.pdf")
-                        }
+                        },
+
                     )
                 }
             }

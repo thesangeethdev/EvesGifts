@@ -9,6 +9,7 @@ import android.os.Environment
 import com.sangeeth.evesgifts.data.SelectedCake
 import com.sangeeth.evesgifts.data.SelectedFrame
 import com.sangeeth.evesgifts.data.SelectedGifts
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.Date
 
@@ -22,7 +23,7 @@ fun pdfGenerator(
     cakes: List<SelectedCake>,
     gifts: List<SelectedGifts>,
     totalPrice: Double
-) {
+) : ByteArray{
 
     val pdfDocument = PdfDocument()
 
@@ -156,6 +157,12 @@ fun pdfGenerator(
         pdfDocument.writeTo(it)
     }
 
+    val outputStream = ByteArrayOutputStream()
+    pdfDocument.writeTo(outputStream)
+    val pdfBytes = outputStream.toByteArray()
+
     pdfDocument.close()
+
+    return pdfBytes
 
 }
