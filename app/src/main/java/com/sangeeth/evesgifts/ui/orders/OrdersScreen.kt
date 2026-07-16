@@ -246,7 +246,7 @@ fun QuotationCard(quotation: Quotation) {
             ) {
                 if (quotation.frames.isNotEmpty()) {
                     Text(
-                        text = "🖼️ ${quotation.frames.size} frame(s)",
+                        text = "🖼️ ${quotation.frames.sumOf { it.quantity }} frame(s)",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -254,7 +254,7 @@ fun QuotationCard(quotation: Quotation) {
 
                 if (quotation.cakes.isNotEmpty()) {
                     Text(
-                        text = "🎂 ${quotation.cakes.size} cake(s)",
+                        text = "🎂 ${quotation.cakes.sumOf { it.quantity }} cake(s)",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -262,7 +262,7 @@ fun QuotationCard(quotation: Quotation) {
 
                 if (quotation.gifts.isNotEmpty()) {
                     Text(
-                        text = "🎁 ${quotation.gifts.size} gift(s)",
+                        text = "🎁 ${quotation.gifts.sumOf { it.quantity }} gift(s)",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
