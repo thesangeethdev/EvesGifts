@@ -1,5 +1,6 @@
 package com.sangeeth.evesgifts.ui.login
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +14,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,10 +24,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.sangeeth.evesgifts.R
 import com.sangeeth.evesgifts.navigation.AppDestination
 
 @Composable
@@ -56,12 +64,27 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+
+        Image(
+            painter = painterResource(R.drawable.logo),
+            contentDescription = "App Logo",
+            modifier = Modifier.size(120.dp)
+                .padding(bottom = 32.dp),
+            contentScale = ContentScale.Fit
+        )
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
             label = { Text("Email") },
             singleLine = true,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = colorResource(R.color.primary_color),
+                unfocusedIndicatorColor = colorResource(R.color.primary_color),
+                cursorColor = colorResource(R.color.primary_color),
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent
+            )
         )
         OutlinedTextField(
             value = password,
@@ -69,25 +92,26 @@ fun LoginScreen(
             label = { Text("Password") },
             visualTransformation = PasswordVisualTransformation(),
             singleLine = true,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = colorResource(R.color.primary_color),
+                unfocusedIndicatorColor = colorResource(R.color.primary_color),
+                cursorColor = colorResource(R.color.primary_color),
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            onClick = {viewModel.login(email,password)},
+        LoginButton(
+            loading = uiState is LoginUIState.Loading,
+            onClick = { viewModel.login(email, password) },
             enabled = uiState !is LoginUIState.Loading,
             modifier = Modifier.fillMaxWidth()
-        ) {
-            if (uiState is LoginUIState.Loading){
-                CircularProgressIndicator(modifier = Modifier.size(20.dp))
+        )
 
-            }else{
-                Text("Login")
-            }
-        }
-
-        if (uiState is LoginUIState.Error){
+        if (uiState is LoginUIState.Error) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = (uiState as LoginUIState.Error).message,
