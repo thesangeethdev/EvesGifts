@@ -3,9 +3,11 @@ package com.sangeeth.evesgifts.ui.profile
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -42,7 +44,7 @@ fun ProfileScreen(
 
     Column(
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -53,16 +55,21 @@ fun ProfileScreen(
             }
             is ProfileUIState.Success -> {
                 val data = uiState as ProfileUIState.Success
-                Text("User Name: ${data.diaplayName}", style = MaterialTheme.typography.headlineSmall)
+                Avatar(name = data.diaplayName, modifier = Modifier.size(60.dp))
+//                Text("User Name: ${data.diaplayName}", style = MaterialTheme.typography.headlineSmall)
                 Spacer(modifier = Modifier.height(8.dp))
                 Text("Email: ${data.email}", style = MaterialTheme.typography.bodyLarge)
                 Spacer(modifier = Modifier.height(24.dp))
 
-                Button(
-                    onClick = {viewModel.logout()}
-                ) {
-                    Text("Logout")
-                }
+                LogoutButton(
+                    onClick = {viewModel.logout()},
+//                    loading = true
+                )
+//                Button(
+//                    onClick = {viewModel.logout()}
+//                ) {
+//                    Text("Logout")
+//                }
             }
 
             is ProfileUIState.Error -> {
