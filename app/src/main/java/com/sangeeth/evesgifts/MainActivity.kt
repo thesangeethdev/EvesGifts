@@ -6,8 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.sangeeth.evesgifts.navigation.AppDestination
 import com.sangeeth.evesgifts.navigation.AppNavHost
 import com.sangeeth.evesgifts.navigation.BottomBar
 
@@ -18,9 +21,16 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.destination?.route
+
+            val showBottomBar = currentRoute != AppDestination.Login.route
+
             Scaffold(
                 bottomBar = {
-                    BottomBar(navController)
+                    if (showBottomBar){
+                        BottomBar(navController)
+                    }
                 },
 
                 ) { innerPadding ->
