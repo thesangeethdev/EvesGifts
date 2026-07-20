@@ -63,7 +63,7 @@ fun FloatingActionButton(
         FabItems(icon = R.drawable.ic_gifts, title = "Gifts"),
     )
     Box(
-        modifier = modifier.height(300.dp),
+        modifier = modifier,
 //        horizontalAlignment = Alignment.End
         contentAlignment = Alignment.BottomEnd
     ) {

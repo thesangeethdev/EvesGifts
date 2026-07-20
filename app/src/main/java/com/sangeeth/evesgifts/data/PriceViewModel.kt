@@ -225,5 +225,11 @@ class PriceViewModel : ViewModel() {
         return frameTotal + cakeTotal + giftTotal
     }
 
+    fun clearAll() {
+        clearSelectedFrame()
+        clearCakes()
+        clearGifts()
+    }
+
 }
 

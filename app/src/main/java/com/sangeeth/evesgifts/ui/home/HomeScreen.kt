@@ -8,8 +8,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldLineLimits
@@ -65,10 +68,14 @@ fun HomeScreen(
     val savePdf = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument("application/pdf")
     ) { uri: Uri? ->
-        uri?.let {
+        if (uri == null) {
+            isGenerating = false
+            return@rememberLauncherForActivityResult
+        }
+        try {
             pdfGenerator(
                 context = context,
-                uri = it,
+                uri = uri,
                 quotationId = "Q-${System.currentTimeMillis()}",
                 customerName = customerName.text.toString(),
                 frames = selectedFrames,
@@ -77,10 +84,6 @@ fun HomeScreen(
                 totalPrice = viewModel.getTotalPrice()
             )
 
-//            uploadQuotationPdf(
-//                pdfByte = pdfBytes,
-//                quotationId = quotationId,
-//                onComplete = { pdfUrl ->
             saveQuotation(
                 quotationId = quotationId,
                 customerName = customerName.text.toString(),
@@ -90,33 +93,35 @@ fun HomeScreen(
                 totalPrice = viewModel.getTotalPrice()
 //                        pdfUrl = pdfUrl
             ) {
+                viewModel.clearAll()
                 isGenerating = false
             }
-//                },
-//                onError = {
-//                    it.printStackTrace()
-//                    isGenerating = false
-//                }
-//            )
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "failed to generate pdf: ${e.message}", Toast.LENGTH_SHORT)
+                .show()
+            isGenerating = false
         }
     }
 
 
     Scaffold(
 //        floatingActionButton = { FloatingActionButton(viewModel) }
-        floatingActionButton = {
-            FloatingActionButton(
-                viewModel = viewModel,
-                modifier = Modifier.padding(bottom = 70.dp)
-            )
-        }
+//        floatingActionButton = {
+//            FloatingActionButton(
+//                viewModel = viewModel,
+//                modifier = Modifier.padding(bottom = 70.dp)
+//            )
+//        }
 
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(20.dp)
+                .padding(horizontal = 20.dp)
+                .padding(bottom = 100.dp)
 
         ) {
             Text(
@@ -155,137 +160,124 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
+                    .padding(top = 8.dp)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                //                Text("Frames Details")
-
-                //                if (viewModel.selectedFrames.isEmpty() && viewModel.selectedCakes.isEmpty() && viewModel.selectedGifts.isEmpty()) {
-                //                    Text("no items selected yet")
-                //                } else {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .padding(top = 8.dp)
-                        .verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    if (viewModel.selectedFrames.isEmpty() && viewModel.selectedCakes.isEmpty() && viewModel.selectedGifts.isEmpty()) {
-                        Text("no items selected yet")
-                    } else {
-                        selectedFrames.forEach { frame ->
-                            AddedItemCardView(
-                                item = frame.category,
-                                size = frame.size,
-                                price = frame.price?.toString() ?: "N/A",
-                                onDelete = {
-                                    viewModel.removeFrame(frame)
-                                },
-                                quantity = frame.quantity,
-                                onQuantityChange = { newQuantity ->
-                                    viewModel.updateFrameQuantity(
-                                        frame = frame,
-                                        newQuantity = newQuantity
-                                    )
-
-                                }
-                            )
-                            //                            Text(
-                            //                                text = "id: ${index+1}. category ${frame.category}, size: ${frame.size}, price: ${frame.price?.toString() ?: "N/A"}",
-                            //                                modifier = Modifier.padding(4.dp)
-                            //                            )
-                        }
-
-                        selectedCake.forEach { cake ->
-                            AddedItemCardView(
-                                item = cake.category.replace("_", " ")
-                                    ?.replaceFirstChar {
-                                        if (it.isLowerCase()) it.titlecase(
-                                            locale = Locale.ROOT
-                                        ) else it.toString()
-                                    }
-                                    ?: "",
-                                size = cake.subType?.replace("_", " ")
-                                    ?.replaceFirstChar {
-                                        if (it.isLowerCase()) it.titlecase(
-                                            locale = Locale.ROOT
-                                        ) else it.toString()
-                                    }
-                                    ?: "Standard",
-                                price = cake.price.toString(),
-                                quantity = cake.quantity,
-                                onQuantityChange = { newQuantity ->
-                                    viewModel.updateCakeQuantity(
-                                        cake = cake,
-                                        newQuantity = newQuantity
-                                    )
-                                },
-                                onDelete = {
-                                    viewModel.removeCake(cake = cake)
-                                }
-                            )
-                        }
-
-                        selectedGifts.forEach { gifts ->
-                            AddedItemCardView(
-                                item = gifts.category.replace("_", " ")
-                                    .replaceFirstChar {
-                                        if (it.isLowerCase()) it.titlecase(
-                                            locale = Locale.ROOT
-                                        ) else it.toString()
-                                    }
-                                    ?: "",
-                                size = "Gift",
-                                price = gifts.price ?: "N/A",
-                                quantity = gifts.quantity,
-                                onQuantityChange = { newQuantity ->
-                                    viewModel.updateGiftQuantity(gifts, newQuantity)
-                                },
-                                onDelete = {
-                                    viewModel.removeGift(gifts)
-                                }
-                            )
-                        }
-
-
-                    }
-                }
-
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 15.dp)
-//                        horizontalArrangement = Arrangement.SpaceBetween,
-//                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "Total: Rs${
-                                String.format(
-                                    "%.2f",
-                                    viewModel.getTotalPrice()
+                if (viewModel.selectedFrames.isEmpty() && viewModel.selectedCakes.isEmpty() && viewModel.selectedGifts.isEmpty()) {
+                    Text("no items selected yet")
+                } else {
+                    selectedFrames.forEach { frame ->
+                        AddedItemCardView(
+                            item = frame.category,
+                            size = frame.size,
+                            price = frame.price?.toString() ?: "N/A",
+                            onDelete = {
+                                viewModel.removeFrame(frame)
+                            },
+                            quantity = frame.quantity,
+                            onQuantityChange = { newQuantity ->
+                                viewModel.updateFrameQuantity(
+                                    frame = frame,
+                                    newQuantity = newQuantity
                                 )
-                            }",
-                            modifier = Modifier
-                                .align(Alignment.CenterStart)
-                                .padding(top = 8.dp),
-                            fontWeight = FontWeight.Bold
+
+                            }
                         )
                     }
-//                    Spacer(modifier = Modifier.height(12.dp))
-                    GenerateQuoteButton(
-                        hasItems = hasItems && hasCustomerName,
-                        loading = isGenerating,
-                        onClick = {
-                            isGenerating = true
-                            savePdf.launch("Quotation_$quotationId.pdf")
-                        },
 
+                    selectedCake.forEach { cake ->
+                        AddedItemCardView(
+                            item = cake.category.replace("_", " ")
+                                ?.replaceFirstChar {
+                                    if (it.isLowerCase()) it.titlecase(
+                                        locale = Locale.ROOT
+                                    ) else it.toString()
+                                }
+                                ?: "",
+                            size = cake.subType?.replace("_", " ")
+                                ?.replaceFirstChar {
+                                    if (it.isLowerCase()) it.titlecase(
+                                        locale = Locale.ROOT
+                                    ) else it.toString()
+                                }
+                                ?: "Standard",
+                            price = cake.price.toString(),
+                            quantity = cake.quantity,
+                            onQuantityChange = { newQuantity ->
+                                viewModel.updateCakeQuantity(
+                                    cake = cake,
+                                    newQuantity = newQuantity
+                                )
+                            },
+                            onDelete = {
+                                viewModel.removeCake(cake = cake)
+                            }
                         )
+                    }
+
+                    selectedGifts.forEach { gifts ->
+                        AddedItemCardView(
+                            item = gifts.category.replace("_", " ")
+                                .replaceFirstChar {
+                                    if (it.isLowerCase()) it.titlecase(
+                                        locale = Locale.ROOT
+                                    ) else it.toString()
+                                }
+                                ?: "",
+                            size = "Gift",
+                            price = gifts.price ?: "N/A",
+                            quantity = gifts.quantity,
+                            onQuantityChange = { newQuantity ->
+                                viewModel.updateGiftQuantity(gifts, newQuantity)
+                            },
+                            onDelete = {
+                                viewModel.removeGift(gifts)
+                            }
+                        )
+                    }
+
+
                 }
+
+
             }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+                    .padding(bottom = 0.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Total: Rs${
+                        String.format(
+                            "%.2f",
+                            viewModel.getTotalPrice()
+                        )
+                    }",
+//                        modifier = Modifier
+//                            .align(Alignment.CenterStart)
+//                            .padding(bottom = 8.dp),
+                    fontWeight = FontWeight.Bold
+                )
+                //                    Spacer(modifier = Modifier.height(12.dp))
+                FloatingActionButton(viewModel = viewModel, modifier = Modifier)
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            GenerateQuoteButton(
+                hasItems = hasItems && hasCustomerName,
+                loading = isGenerating,
+                onClick = {
+                    isGenerating = true
+                    savePdf.launch("Quotation_$quotationId.pdf")
+                }
+            )
         }
     }
 }
+
+
 
