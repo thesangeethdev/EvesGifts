@@ -16,29 +16,29 @@ Images | ![ezgif demo](https://www.image2url.com/r2/default/gifs/1783267693625-8
 
 ## Functionalities
 
-**Required** functionalities:
+**Completer** functionalities:
 
-* [ ] customized composable screens
-* [ ] modern animated components
-* [ ] MVVM architecture lifecycle
-* [ ] Navigations using navigation3
-* [ ] fetch json api data
-* [ ] generate quotation as pdf
-* [ ] preview pdf
-* [ ] save quotations to MongoDB
-* [ ] retrieve quotations from db
-* [ ] user authentication
+* [x] customized composable screens
+* [x] modern animated components
+* [x] MVVM architecture lifecycle
+* [x] Navigations using navigation3
+* [x] fetch json api data
+* [x] generate quotation as pdf
+* [x] preview pdf
+* [x] save quotations to MongoDB
+* [x] retrieve quotations from db
+* [x] user authentication
 
-The following **extensions** need to be implemented:
+The following **extensions** implemented:
 
-* [ ] User need to sign with their user credentials
-* [ ] User can view home page that have generate quotation for categories of gifts
-* [ ] custom bottom navigation bar
-* [ ] custom composables widgets
-* [ ] MVVM pattern
-* [ ] user can see setting page that have profile details and logout
-* [ ] user can generate quotations as pdf, share and saved on db
-* [ ] view past quotations
+* [x] User need to sign with their user credentials
+* [x] User can view home page that have generate quotation for categories of gifts
+* [x] custom bottom navigation bar
+* [x] custom composables widgets
+* [x] MVVM pattern
+* [x] user can see setting page that have profile details and logout
+* [x] user can generate quotations as pdf, share and saved on db
+* [x] view past quotations
 
 
 
