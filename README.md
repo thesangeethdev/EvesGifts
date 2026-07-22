@@ -57,8 +57,7 @@ Here's a walkthrough of implemented user stories:
 
 | Screen    | Login    | Home View    | Home with FAB    | Orders    | Quote                         |
 |---|---|---|---|---|-------------------------------|
-| Images    | ![Sign In](/images/login.png)    | ![home](/images/home_with_items.png) | ![fab](/images/fab.png) | ![orders](/images/past_orders.png) | ![orders](/images/quote1.png) |
-
+| Images    | <img src="/images/login.png" width="150" alt="Sign In">    | <img src="/images/home_with_items.png" width="150" alt="home"> | <img src="/images/fab.png" width="150" alt="fab"> | <img src="/images/past_orders.png" width="150" alt="orders"> | <img src="/images/quote1.png" width="150" alt="quote"> |
 
 # Screenshots Tablet
 Screen | Landscape |
