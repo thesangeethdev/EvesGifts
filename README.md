@@ -67,12 +67,12 @@ Here's a walkthrough of implemented user stories:
   </tr>
   <tr>
     <td>Images</td>
-    <td>![Sign In](images/login.png)</td>
-    <td>![home](images/home_with_items.png)</td>
-    <td>![fab](images/fab.png)</td>
-    <td>![orders](images/past_orders.png)</td>
-    <td>![profile](images/login.png)</td>
-    <td>![quote](images/quote1.png)</td>
+    <td>![Sign In](/images/login.png)</td>
+    <td>![home](/images/home_with_items.png)</td>
+    <td>![fab](/images/fab.png)</td>
+    <td>![orders](/images/past_orders.png)</td>
+    <td>![profile](/images/login.png)</td>
+    <td>![quote](/images/quote1.png)</td>
   </tr>
 </table>
 
