@@ -61,7 +61,7 @@ Here's a walkthrough of implemented user stories:
 # Screenshots Tablet
 Screen | Landscape                                              |
 --- |--------------------------------------------------------|
-Images | <img src="/images/tab_view.png" width="150" alt="tab"> |
+Images | <img src="/images/tab_view.png" width="500" alt="tab"> |
 
 ## Workflow Diagram
 
