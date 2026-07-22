@@ -55,9 +55,9 @@ TBA
 
 Here's a walkthrough of implemented user stories:
 
-| Screen    | Login    | Home View    | Home with FAB    | Orders    |
-|---|---|---|---|---|
-| Images    | ![Sign In](/images/login.png)    | ![home](/images/home_with_items.png) | ![fab](/images/fab.png) | ![orders](/images/past_orders.png) |
+| Screen    | Login    | Home View    | Home with FAB    | Orders    | Quote                         |
+|---|---|---|---|---|-------------------------------|
+| Images    | ![Sign In](/images/login.png)    | ![home](/images/home_with_items.png) | ![fab](/images/fab.png) | ![orders](/images/past_orders.png) | ![orders](/images/quote1.png) |
 
 
 # Screenshots Tablet
